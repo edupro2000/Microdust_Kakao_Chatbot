@@ -8,7 +8,7 @@
 
 import os
 from flask import Flask, request, jsonify
-from test import microdust_1
+from get_microdust import *
 
 
 app = Flask(__name__)
@@ -34,11 +34,11 @@ def Message():
 
     if content == "미세먼지" :
 
-        dataSend = {"message": {"text": "미세먼지를 알려준다. **동만 말해."}}
+        dataSend = {"message": {"text": "사는 지역을 알려주시면 실시간으로 미세먼지를 알려드려요!"}}
 
     elif "동" in content :
 
-        dataSend = {"message": {"text": microdust_1(content)}}
+        dataSend = {"message": {"text": get_microdust(content)}}
 
 		
     elif "안녕" in content :
