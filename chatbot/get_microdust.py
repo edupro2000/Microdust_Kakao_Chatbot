@@ -3,7 +3,7 @@
 
 # ## 한국환경공단 대기오염 API를 이용한 미세먼지 데이터 가져오기
 
-# In[2]:
+# In[1]:
 
 
 import requests
@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 import pickle
 
 
-# In[68]:
+# In[2]:
 
 
 #미세먼지 및 초미세먼지 농도별 등급 판정
@@ -32,6 +32,7 @@ def grade(num) :
 
 def nano_grade(num) : 
     try : 
+        num = int(num)
         if num >=0 and num <= 15 : 
             result = "좋음"
         elif num > 15 and num <= 35 :
@@ -49,15 +50,17 @@ def nano_grade(num) :
 
 # ## 1. 측정소 정보 조회
 # - 대기질 측정소 정보를 조회하기 위해 TM 좌표 기반의 가까운 측정소 및 측정소 목록과 측정소의 정보를 조회할 수 있음.
+# - 입력값 : 미세먼지 농도를 알고 싶은 위치의 주소명
+# - 출력값 : 위치에 대한 TM좌표
 
-# In[4]:
+# In[3]:
 
 
 with open('get_tm_coor_key.txt', 'rb') as f :
     get_tm_coor_key = pickle.load(f)
 
 
-# In[84]:
+# In[4]:
 
 
 def get_tm_coor(loc) : 
@@ -79,7 +82,7 @@ def get_tm_coor(loc) :
     return result
 
 
-# In[38]:
+# In[5]:
 
 
 get_tm_coor("영통동")
@@ -89,22 +92,17 @@ get_tm_coor("영통동")
 
 # ## TM 기준좌표 조회
 # - 검색서비스를 사용하여 읍면동 이름을 검색조건으로 기준좌표 (TM좌표)정보를 제공하는 서비스
+# - 입력값으로는 TM좌표를 입력
+# * TM 좌표는, 위경도와 형태는 비슷하나 내용은 다른 위치 표기법
 
-# In[40]:
-
-
-with open("tm_station_key.txt", "wb") as f :
-    pickle.dump(tm_station_key, f)
-
-
-# In[41]:
+# In[6]:
 
 
 with open("tm_station_key.txt", "rb") as f :
     tm_station_key = pickle.load(f)
 
 
-# In[43]:
+# In[7]:
 
 
 def nearest_station(X, Y) : 
@@ -116,13 +114,13 @@ def nearest_station(X, Y) :
     return name, distance + "km"
 
 
-# In[44]:
+# In[8]:
 
 
 X, Y = get_tm_coor("병점동")
 
 
-# In[45]:
+# In[9]:
 
 
 nearest_station(X, Y)
@@ -130,17 +128,14 @@ nearest_station(X, Y)
 
 # --------
 
-# In[48]:
+# ## 실시간 미세 먼지 조회
+# - 위치를 입력받아 실제로 미세먼지를 결과값으로 도출하는 함수
 
-
-servicekey_1 = "u4Q%2FF%2BzFS1PHRIhVj2cJcxGP8J%2B5vOxCbaO039frcCGDEuD2km6rhbR2wZrwBrZtlLu2Z%2FbsqMHDVVGHwkq8ow%3D%3D" 
-
-
-# In[91]:
+# In[10]:
 
 
 def microdust_1(loc) : 
-    url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName="+loc+"&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey="+servicekey_1+"&ver=1.3"
+    url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName="+loc+"&dataTerm=month&pageNo=1&numOfRows=10&ServiceKey="+ tm_station_key + "&ver=1.3"
     response = requests.get(url)
     dom = BeautifulSoup(response.content, "html.parser")
     date = dom.select("datatime")[0].text
@@ -152,10 +147,12 @@ def microdust_1(loc) :
     return result
 
 
-# In[92]:
+# ## 최종 함수
+# - 알고 싶은 위치에서 가장 가까운 관측소에서 측정한 미세먼지 및 초미세먼지 농도를 출력
+
+# In[11]:
 
 
-place = "부산 해운대"
 def get_microdust(place) : 
     try : 
         X, Y = get_tm_coor(place)
@@ -166,8 +163,8 @@ def get_microdust(place) :
     return result
 
 
-# In[93]:
+# In[12]:
 
 
-get_microdust("해운대")
+get_microdust("언남동")
 
