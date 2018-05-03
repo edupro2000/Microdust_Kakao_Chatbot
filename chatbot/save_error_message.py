@@ -9,12 +9,14 @@ db = client.error_messages
 #error message database에 messages라는 document 생성
 message = db.messages
 
-def save_messages(user_key, content) :  
+def save_messages(user_key, content) :
     date = datetime.datetime.utcnow()
-    date = date.strftime("%A %d. %B %Y")
+    #한국시간으로 전환
+    time_gap = datetime.timedelta(hours=9)
+    date = (date + time_gap).strftime("%Y-%m-%d %H:%M:%S")
     post = {
     "user" : user_key,
-    "test" : content,
+    "text" : content,
     "date" : date,
     }
     message.insert_one(post) 
