@@ -9,6 +9,7 @@
 import os
 from flask import Flask, request, jsonify
 from get_microdust import *
+from save_error_message import save_messages
 
 
 app = Flask(__name__)
@@ -31,6 +32,7 @@ def Message():
 
     dataReceive = request.get_json()
     content = dataReceive['content']
+    user_key = dataReceive['user_key']
 
     if content == "미세먼지" :
 
@@ -38,15 +40,16 @@ def Message():
 
     elif "동" in content :
 
-        dataSend = {"message": {"text": get_microdust(content)}}
+        dataSend = {"message": {"text": get_microdust(content) } }
 
 		
     elif "안녕" in content :
 
-        dataSend = {"message":{"text": "이것도 되는가"}}
+        dataSend = {"message":{"text": dataReceive } }
 
     else :
-        dataSend = {"message": {"text": get_microdust(content}}
+        save_messages(user_key, content)
+        dataSend = {"message": {"text": "더 공부해서 오겠습니다.."}}
 
     return jsonify(dataSend)
 
