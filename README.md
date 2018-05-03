@@ -11,7 +11,10 @@ Step 1. using Kakao talk Plus friend to make chatbot - **Done**
 Step 2. get microdust information instantly - **Done**
 > - get microdust information from internet.
 
-Step 3. have chatbot understand whatever users say - working
+Step 3. save messages from users - **Done**
+> - use pymongo to deliver all message from users to mongoDB
+
+Step 4. have chatbot understand whatever users say - working
 > - chatbot has to understand purpose of users.
 > - This is about Natural Language Processing that I have been interested in.
 > - (still working to make it) 
