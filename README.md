@@ -16,7 +16,7 @@ Step 3. save messages from users - **Done**
 
 Step 4. have chatbot understand whatever users say - working
 > - chatbot has to understand purpose of users.
-> - This is about Natural Language Processing that I have been interested in.
+> - word2vec, seq2seq
 > - (still working to make it) 
 
 
