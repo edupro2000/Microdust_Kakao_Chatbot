@@ -14,9 +14,9 @@ Step 2. get microdust information instantly - **Done**
 Step 3. save messages from users - **Done**
 > - use pymongo to deliver all message from users to mongoDB
 
-Step 4. have chatbot understand whatever users say - working
-> - chatbot has to understand purpose of users.
-> - This is about Natural Language Processing that I have been interested in.
+Step 4. correct users's word - working
+> - sometimes, two words that have same meaning are written different form. ex)충청북도 -> 충북
+> - by using word2vec, have chatbot understand those words.
 > - (still working to make it) 
 
 
