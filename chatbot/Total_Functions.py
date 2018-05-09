@@ -153,7 +153,6 @@ def microdust_1(loc) :
     미세먼지 농도 : {}({}), 
     초 미세먼지 농도 : {}({})였습니다!
     
-    선택하신 지역의 인접지역 미세먼지 정보는 버튼을 통해 확인하실 수 있습니다.
     
     '''.format(date, pm10, grade(pm10),  pm25, nano_grade(pm25))
     return result
